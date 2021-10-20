@@ -5,4 +5,6 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 import vboyko.gb.libs.lesson1.domain.User
 
 @AddToEndSingle
-interface MainView : MvpView
+interface UsersListView: MvpView {
+    fun showUsersList(usersList: List<User>)
+}
