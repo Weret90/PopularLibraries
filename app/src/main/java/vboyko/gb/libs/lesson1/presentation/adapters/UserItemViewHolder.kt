@@ -1,4 +1,4 @@
-package vboyko.gb.libs.lesson1.presentation
+package vboyko.gb.libs.lesson1.presentation.adapters
 
 import android.view.View
 import android.widget.TextView

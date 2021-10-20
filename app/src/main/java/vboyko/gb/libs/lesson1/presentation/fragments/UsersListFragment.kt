@@ -1,21 +1,35 @@
-package vboyko.gb.libs.lesson1.presentation
+package vboyko.gb.libs.lesson1.presentation.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import vboyko.gb.libs.lesson1.databinding.FragmentUsersListBinding
 import vboyko.gb.libs.lesson1.domain.User
+import vboyko.gb.libs.lesson1.presentation.*
+import vboyko.gb.libs.lesson1.presentation.adapters.UsersListAdapter
+import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
+import vboyko.gb.libs.lesson1.presentation.interfaces.UsersListView
+import vboyko.gb.libs.lesson1.presentation.presenters.UsersListPresenter
 
-class UsersListFragment : MvpAppCompatFragment(), UsersListView {
+class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListener {
 
     private var _binding: FragmentUsersListBinding? = null
     private val binding get() = _binding!!
+
     private val usersListAdapter = UsersListAdapter()
-    private val presenter by moxyPresenter { UsersListPresenter() }
+    private val presenter by moxyPresenter {
+        UsersListPresenter(
+            App.instance.router,
+            AndroidScreens()
+        )
+    }
+
+    companion object {
+        fun newInstance() = UsersListFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +50,14 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView {
         binding.rvUsers.adapter = usersListAdapter
 
         usersListAdapter.onUserItemClickListener = {
-            Toast.makeText(context, "ssss", Toast.LENGTH_SHORT).show()
+            presenter.navigateToUserDetailFragment(it.id)
         }
-
     }
 
     override fun showUsersList(usersList: List<User>) {
         usersListAdapter.setData(usersList)
     }
+
+    override fun backPressed() = presenter.backPressed()
+
 }
