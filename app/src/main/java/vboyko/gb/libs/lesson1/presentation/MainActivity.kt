@@ -1,60 +1,44 @@
 package vboyko.gb.libs.lesson1.presentation
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import vboyko.gb.libs.lesson1.R
 import vboyko.gb.libs.lesson1.databinding.ActivityMainBinding
+import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
+import vboyko.gb.libs.lesson1.presentation.interfaces.MainView
+import vboyko.gb.libs.lesson1.presentation.presenters.MainPresenter
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
+
+    private val navigator = AppNavigator(this, R.id.container)
 
     private lateinit var binding: ActivityMainBinding
-
-    private val presenter = MainPresenter(this)
-
-    companion object {
-        private const val ARG_BUTTON_1_TEXT = "arg_button_1_text"
-        private const val ARG_BUTTON_2_TEXT = "arg_button_2_text"
-        private const val ARG_BUTTON_3_TEXT = "arg_button_3_text"
-    }
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        setupCLickListeners()
     }
 
-    private fun setupCLickListeners() {
-        binding.btnCounter1.setOnClickListener {
-            presenter.updateCounterOnButton(ButtonNum.FIRST)
-        }
-        binding.btnCounter2.setOnClickListener {
-            presenter.updateCounterOnButton(ButtonNum.SECOND)
-        }
-        binding.btnCounter3.setOnClickListener {
-            presenter.updateCounterOnButton(ButtonNum.THIRD)
-        }
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigatorHolder.setNavigator(navigator)
     }
 
-    override fun setTextOnButton(buttonNum: ButtonNum, text: String) {
-        when (buttonNum) {
-            ButtonNum.FIRST -> binding.btnCounter1.text = text
-            ButtonNum.SECOND -> binding.btnCounter2.text = text
-            ButtonNum.THIRD -> binding.btnCounter3.text = text
+    override fun onPause() {
+        super.onPause()
+        App.instance.navigatorHolder.removeNavigator()
+    }
+
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if (it is BackButtonListener && it.backPressed()) {
+                return
+            }
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(ARG_BUTTON_1_TEXT, binding.btnCounter1.text.toString())
-        outState.putString(ARG_BUTTON_2_TEXT, binding.btnCounter2.text.toString())
-        outState.putString(ARG_BUTTON_3_TEXT, binding.btnCounter3.text.toString())
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        binding.btnCounter1.text = savedInstanceState.getString(ARG_BUTTON_1_TEXT)
-        binding.btnCounter2.text = savedInstanceState.getString(ARG_BUTTON_2_TEXT)
-        binding.btnCounter3.text = savedInstanceState.getString(ARG_BUTTON_3_TEXT)
+        presenter.backClicked()
     }
 }
