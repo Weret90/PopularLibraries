@@ -19,7 +19,7 @@ object UsersRepositoryImpl : UsersRepository {
     override fun getUserLogin(userId: Int): String = getUserById(userId).login
 
     override fun getUserById(userId: Int): User {
-        for (user in usersList) {
+        usersList.forEach { user ->
             if (user.id == userId) return user
         }
         throw RuntimeException("User with id $userId not found")

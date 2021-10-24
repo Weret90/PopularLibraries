@@ -15,9 +15,7 @@ class UserDetailPresenter(private val router: Router, private val screen: Screen
     private val getUserLoginInteractor = GetUserLoginInteractor(repository)
 
     fun backPressed(): Boolean {
-        router.replaceScreen(screen.usersList()) //вопрос: почему когда я пишу вместо этого это:
-//      router.backTo(screen.usersList())  -  при нажатии back ничего не происходит?
-//      правильнее же прописывать backTo чем Replace???
+        router.replaceScreen(screen.usersList())
         return true
     }
 
