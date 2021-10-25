@@ -1,12 +1,12 @@
 package vboyko.gb.libs.lesson1.domain
 
-import vboyko.gb.libs.lesson1.domain.User
+import io.reactivex.rxjava3.core.Single
 
 interface UsersRepository {
 
-    fun getUsersList(): List<User>
+    fun getUsersList(): Single<List<User>>
 
-    fun getUserLogin(userId: Int): String
+    fun getUserLogin(userId: Int): Single<String>
 
     fun getUserById(userId: Int): User
 }

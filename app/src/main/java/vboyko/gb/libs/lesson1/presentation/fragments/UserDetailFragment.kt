@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import vboyko.gb.libs.lesson1.databinding.FragmentUserDetailBinding
@@ -54,6 +55,14 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
 
     override fun showLogin(userLogin: String) {
         binding.tvLogin.text = userLogin
+    }
+
+    override fun hideProgressBar() {
+        binding.progressBar.visibility = View.GONE
+    }
+
+    override fun showErrorToast(t: Throwable) {
+        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun backPressed() = presenter.backPressed()

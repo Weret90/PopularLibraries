@@ -13,4 +13,11 @@
         android:textStyle="bold"
         android:textSize="32sp"/>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
 </FrameLayout>
