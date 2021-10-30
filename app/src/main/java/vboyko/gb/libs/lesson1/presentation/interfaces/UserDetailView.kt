@@ -7,4 +7,8 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 interface UserDetailView : MvpView {
 
     fun showLogin(userLogin: String)
+
+    fun hideProgressBar()
+
+    fun showErrorToast(error: Throwable)
 }

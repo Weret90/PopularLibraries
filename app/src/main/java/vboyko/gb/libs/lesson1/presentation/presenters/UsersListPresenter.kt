@@ -1,13 +1,16 @@
 package vboyko.gb.libs.lesson1.presentation.presenters
 
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import vboyko.gb.libs.lesson1.data.UsersRepositoryImpl
 import vboyko.gb.libs.lesson1.domain.GetUsersListInteractor
 import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
 import vboyko.gb.libs.lesson1.presentation.interfaces.UsersListView
 
-class UsersListPresenter(private val router: Router, private val screen: Screens) : MvpPresenter<UsersListView>() {
+class UsersListPresenter(private val router: Router, private val screen: Screens) :
+    MvpPresenter<UsersListView>() {
 
     private val repository = UsersRepositoryImpl
 
@@ -15,8 +18,20 @@ class UsersListPresenter(private val router: Router, private val screen: Screens
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        val usersList = getUsersListInteractor.execute()
-        viewState.showUsersList(usersList)
+        val usersListObservable = getUsersListInteractor.execute()
+        usersListObservable
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { usersList ->
+                    viewState.showUsersList(usersList)
+                    viewState.hideProgressBar()
+                },
+                { throwable ->
+                    viewState.showErrorToast(throwable)
+                    viewState.hideProgressBar()
+                }
+            )
     }
 
     fun navigateToUserDetailFragment(userId: Int) {

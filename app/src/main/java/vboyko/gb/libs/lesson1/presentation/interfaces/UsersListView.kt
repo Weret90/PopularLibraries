@@ -5,7 +5,11 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 import vboyko.gb.libs.lesson1.domain.User
 
 @AddToEndSingle
-interface UsersListView: MvpView {
+interface UsersListView : MvpView {
 
     fun showUsersList(usersList: List<User>)
+
+    fun showErrorToast(t: Throwable)
+
+    fun hideProgressBar()
 }
