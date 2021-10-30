@@ -61,8 +61,8 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
         binding.progressBar.visibility = View.GONE
     }
 
-    override fun showErrorToast(t: Throwable) {
-        Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+    override fun showErrorToast(error: Throwable) {
+        Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
     }
 
     override fun backPressed() = presenter.backPressed()

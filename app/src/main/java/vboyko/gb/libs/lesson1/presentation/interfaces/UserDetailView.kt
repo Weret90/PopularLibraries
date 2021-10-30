@@ -10,5 +10,5 @@ interface UserDetailView : MvpView {
 
     fun hideProgressBar()
 
-    fun showErrorToast(t: Throwable)
+    fun showErrorToast(error: Throwable)
 }
