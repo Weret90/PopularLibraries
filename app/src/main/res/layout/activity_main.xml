@@ -1,9 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/jpg_image_label" />
+
+    <ImageView
+        android:id="@+id/imageJPG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_launcher_foreground" />
+
+    <Button
+        android:id="@+id/btn_convert_to_png"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btn_to_convert_text" />
+
+    <TextView
+        android:id="@+id/png_image_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/png_image_label"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imagePNG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        tools:ignore="ContentDescription" />
 
 </LinearLayout>
