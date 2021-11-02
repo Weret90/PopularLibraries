@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import vboyko.gb.libs.lesson1.data.UsersRepositoryImpl
+import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUsersListBinding
-import vboyko.gb.libs.lesson1.domain.User
+import vboyko.gb.libs.lesson1.domain.entity.User
 import vboyko.gb.libs.lesson1.presentation.*
 import vboyko.gb.libs.lesson1.presentation.adapters.UsersListAdapter
 import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
@@ -24,7 +26,8 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
     private val presenter by moxyPresenter {
         UsersListPresenter(
             App.instance.router,
-            AndroidScreens()
+            AndroidScreens(),
+            UsersRepositoryImpl(GithubApiFactory.githubApi)
         )
     }
 
@@ -34,7 +37,7 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentUsersListBinding.inflate(inflater, container, false)
         return binding.root
@@ -51,7 +54,7 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
         binding.rvUsers.adapter = usersListAdapter
 
         usersListAdapter.onUserItemClickListener = {
-            presenter.navigateToUserDetailFragment(it.id)
+            presenter.navigateToUserDetailFragment(it.reposUrl)
         }
     }
 

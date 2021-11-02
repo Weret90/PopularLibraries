@@ -1,13 +1,19 @@
 package vboyko.gb.libs.lesson1.presentation.adapters
 
-import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import vboyko.gb.libs.lesson1.R
+import com.bumptech.glide.Glide
+import vboyko.gb.libs.lesson1.databinding.ItemUserBinding
+import vboyko.gb.libs.lesson1.domain.entity.User
 
-class UserItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+class UserItemViewHolder(private val binding: ItemUserBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-    val tvId: TextView = view.findViewById(R.id.tv_id)
-    val tvName: TextView = view.findViewById(R.id.tv_name)
-    val tvLastName: TextView  = view.findViewById(R.id.tv_last_name)
+    fun bind(user: User) {
+        binding.userLogin.text = user.login
+        binding.userAvatar.run {
+            Glide.with(this)
+                .load(user.avatarUrl)
+                .into(this)
+        }
+    }
 }
