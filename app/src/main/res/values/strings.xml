@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Popular Libraries</string>
-    <string name="counter_one">Счетчик 1</string>
-    <string name="counter_two">Счетчик 2</string>
-    <string name="counter_three">Счетчик 3</string>
+    <string name="repository_name_label">Repository name:</string>
+    <string name="repository_was_created_label">Repository was created:</string>
+    <string name="repository_description_label">Repository description:</string>
+    <string name="repository_language_label">Repository programming language:</string>
+    <string name="repository_forks_count_label">Repository forks count:</string>
 </resources>
