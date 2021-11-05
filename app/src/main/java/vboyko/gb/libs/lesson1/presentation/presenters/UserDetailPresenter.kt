@@ -20,7 +20,7 @@ class UserDetailPresenter(
     private val getUserReposListInteractor = GetUserReposListInteractor(repository)
 
     fun backPressed(): Boolean {
-        router.backTo(null)
+        router.exit()
         return true
     }
 
