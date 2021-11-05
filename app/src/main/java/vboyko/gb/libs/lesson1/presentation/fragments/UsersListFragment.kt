@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import vboyko.gb.libs.lesson1.data.UsersRepositoryImpl
+import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
 import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUsersListBinding
 import vboyko.gb.libs.lesson1.domain.entity.User
