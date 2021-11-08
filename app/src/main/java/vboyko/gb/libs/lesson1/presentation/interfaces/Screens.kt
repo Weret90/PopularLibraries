@@ -6,6 +6,6 @@ import vboyko.gb.libs.lesson1.domain.entity.UserRepo
 interface Screens {
 
     fun usersList(): Screen
-    fun userDetail(userReposUrl: String): Screen
+    fun userDetail(userReposUrl: String, userId: Int): Screen
     fun userRepoDetail(userRepo: UserRepo): Screen
 }

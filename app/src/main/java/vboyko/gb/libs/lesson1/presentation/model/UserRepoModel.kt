@@ -12,4 +12,5 @@ data class UserRepoModel(
     val language: String?,
     val name: String,
     val url: String,
+    val userId: Int
 ) : Parcelable

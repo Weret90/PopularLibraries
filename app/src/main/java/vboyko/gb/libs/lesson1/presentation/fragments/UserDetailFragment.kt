@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import vboyko.gb.libs.lesson1.data.database.UsersDatabase
 import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
 import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUserDetailBinding
@@ -30,18 +31,24 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
         UserDetailPresenter(
             App.instance.router,
             AndroidScreens(),
-            UsersRepositoryImpl(GithubApiFactory.githubApi)
+            UsersRepositoryImpl(
+                GithubApiFactory.githubApi,
+                UsersDatabase.getInstance(requireContext()).usersDao(),
+                UsersDatabase.getInstance(requireContext()).reposDao()
+            )
         )
     }
 
     companion object {
 
         private const val TAG_USER_REPOS_URL = "user_repos_url"
+        private const val TAG_USER_ID = "user_id"
 
-        fun newInstance(userReposUrl: String): UserDetailFragment {
+        fun newInstance(userReposUrl: String, userId: Int): UserDetailFragment {
             return UserDetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(TAG_USER_REPOS_URL, userReposUrl)
+                    putInt(TAG_USER_ID, userId)
                 }
             }
         }
@@ -67,7 +74,10 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
         val userReposUrl =
             requireArguments().getString(TAG_USER_REPOS_URL) ?: throw RuntimeException(
                 "can not get user repos: url == null")
-        presenter.getUserReposList(userReposUrl)
+
+        val userId = requireArguments().getInt(TAG_USER_ID)
+
+        presenter.getUserReposList(userReposUrl, userId)
     }
 
     override fun showUserReposList(list: List<UserRepo>) {

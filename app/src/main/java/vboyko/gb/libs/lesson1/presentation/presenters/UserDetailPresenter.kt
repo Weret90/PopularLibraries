@@ -5,6 +5,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import vboyko.gb.libs.lesson1.domain.entity.UserRepo
+import vboyko.gb.libs.lesson1.domain.interactor.GetReposByUserIdFromDatabaseInteractor
 import vboyko.gb.libs.lesson1.domain.interactor.GetUserReposListInteractor
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
 import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
@@ -18,6 +19,8 @@ class UserDetailPresenter(
     MvpPresenter<UserDetailView>() {
 
     private val getUserReposListInteractor = GetUserReposListInteractor(repository)
+    private val getReposByUserIdFromDatabaseInteractor =
+        GetReposByUserIdFromDatabaseInteractor(repository)
 
     fun backPressed(): Boolean {
         router.exit()
@@ -28,8 +31,25 @@ class UserDetailPresenter(
         router.navigateTo(screen.userRepoDetail(userRepo))
     }
 
-    fun getUserReposList(url: String) {
-        getUserReposListInteractor.execute(url)
+    fun getUserReposList(url: String, userId: Int) {
+        getUserReposListInteractor.execute(url, userId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { userReposList ->
+                    viewState.showUserReposList(userReposList)
+                    viewState.hideProgressBar()
+                },
+                { throwable ->
+                    getReposByUserId(userId)
+                    viewState.showErrorToast(throwable)
+                    viewState.hideProgressBar()
+                }
+            )
+    }
+
+    private fun getReposByUserId(userId: Int) {
+        getReposByUserIdFromDatabaseInteractor.execute(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

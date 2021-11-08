@@ -10,5 +10,6 @@ fun UserRepo.toPresentationModel() = UserRepoModel(
     this.id,
     this.language,
     this.name,
-    this.url
+    this.url,
+    this.userId
 )

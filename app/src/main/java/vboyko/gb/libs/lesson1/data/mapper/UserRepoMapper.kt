@@ -10,7 +10,8 @@ fun UserRepoDTO.toBusiness() = UserRepo(
     this.id,
     this.language,
     this.name,
-    this.url
+    this.url,
+    this.userId
 )
 
 fun List<UserRepoDTO>.toBusiness() = this.map {
