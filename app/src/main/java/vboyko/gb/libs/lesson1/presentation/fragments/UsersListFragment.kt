@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import vboyko.gb.libs.lesson1.data.UsersRepositoryImpl
+import vboyko.gb.libs.lesson1.data.database.UsersDatabase
+import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
 import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUsersListBinding
 import vboyko.gb.libs.lesson1.domain.entity.User
@@ -27,7 +28,11 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
         UsersListPresenter(
             App.instance.router,
             AndroidScreens(),
-            UsersRepositoryImpl(GithubApiFactory.githubApi)
+            UsersRepositoryImpl(
+                GithubApiFactory.githubApi,
+                UsersDatabase.getInstance(requireContext()).usersDao(),
+                UsersDatabase.getInstance(requireContext()).reposDao()
+            )
         )
     }
 
@@ -54,7 +59,7 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
         binding.rvUsers.adapter = usersListAdapter
 
         usersListAdapter.onUserItemClickListener = {
-            presenter.navigateToUserDetailFragment(it.reposUrl)
+            presenter.navigateToUserDetailFragment(it.reposUrl, it.id)
         }
     }
 

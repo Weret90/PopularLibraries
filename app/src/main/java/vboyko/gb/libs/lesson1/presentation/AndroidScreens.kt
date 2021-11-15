@@ -14,8 +14,8 @@ class AndroidScreens : Screens {
         return FragmentScreen { UsersListFragment.newInstance() }
     }
 
-    override fun userDetail(userReposUrl: String): Screen {
-        return FragmentScreen { UserDetailFragment.newInstance(userReposUrl) }
+    override fun userDetail(userReposUrl: String, userId: Int): Screen {
+        return FragmentScreen { UserDetailFragment.newInstance(userReposUrl, userId) }
     }
 
     override fun userRepoDetail(userRepo: UserRepo): Screen {

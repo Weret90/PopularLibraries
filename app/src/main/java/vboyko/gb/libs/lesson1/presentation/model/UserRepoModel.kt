@@ -1,6 +1,10 @@
-package vboyko.gb.libs.lesson1.domain.entity
+package vboyko.gb.libs.lesson1.presentation.model
 
-data class UserRepo(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class UserRepoModel(
     val createdAt: String,
     val description: String?,
     val forksCount: Int,
@@ -9,4 +13,4 @@ data class UserRepo(
     val name: String,
     val url: String,
     val userId: Int
-)
+) : Parcelable

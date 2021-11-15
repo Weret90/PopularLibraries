@@ -12,6 +12,8 @@ import vboyko.gb.libs.lesson1.presentation.AndroidScreens
 import vboyko.gb.libs.lesson1.presentation.App
 import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
 import vboyko.gb.libs.lesson1.presentation.interfaces.UserRepoDetail
+import vboyko.gb.libs.lesson1.presentation.mapper.toPresentationModel
+import vboyko.gb.libs.lesson1.presentation.model.UserRepoModel
 import vboyko.gb.libs.lesson1.presentation.presenters.UserRepoDetailPresenter
 
 class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButtonListener {
@@ -37,7 +39,7 @@ class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButto
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getParcelable<UserRepo>(TAG_USER_REPO)?.let { userRepo ->
+        arguments?.getParcelable<UserRepoModel>(TAG_USER_REPO)?.let { userRepo ->
             binding.repoName.text = userRepo.name
             binding.repoDescription.text = userRepo.description
             binding.repoLanguage.text = userRepo.language
@@ -51,7 +53,7 @@ class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButto
         fun newInstance(userRepo: UserRepo): UserRepoDetailFragment {
             return UserRepoDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(TAG_USER_REPO, userRepo)
+                    putParcelable(TAG_USER_REPO, userRepo.toPresentationModel())
                 }
             }
         }

@@ -10,5 +10,9 @@ interface UsersRepository {
 
     fun getUserByLogin(userLogin: String): Single<User>
 
-    fun getUserReposList(url: String): Single<List<UserRepo>>
+    fun getUserReposList(url: String, userId: Int): Single<List<UserRepo>>
+
+    fun getAllUsersFromDatabase(): Single<List<User>>
+
+    fun getReposByUserIdFromDatabase(userId: Int): Single<List<UserRepo>>
 }
