@@ -4,8 +4,12 @@ import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import vboyko.gb.libs.lesson1.presentation.interfaces.MainView
 import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
+import javax.inject.Inject
 
-class MainPresenter(private val router: Router, private val screen: Screens) : MvpPresenter<MainView>() {
+class MainPresenter @Inject constructor(
+    private val router: Router,
+    private val screen: Screens
+    ) : MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

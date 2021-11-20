@@ -10,8 +10,9 @@ import vboyko.gb.libs.lesson1.data.network.GithubApiService
 import vboyko.gb.libs.lesson1.domain.entity.User
 import vboyko.gb.libs.lesson1.domain.entity.UserRepo
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
+import javax.inject.Inject
 
-class UsersRepositoryImpl(
+class UsersRepositoryImpl @Inject constructor(
     private val githubApi: GithubApiService,
     private val usersDao: UsersDao,
     private val reposDao: ReposDao,

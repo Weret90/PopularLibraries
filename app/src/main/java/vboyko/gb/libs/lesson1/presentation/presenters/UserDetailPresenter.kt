@@ -10,17 +10,14 @@ import vboyko.gb.libs.lesson1.domain.interactor.GetUserReposListInteractor
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
 import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
 import vboyko.gb.libs.lesson1.presentation.interfaces.UserDetailView
+import javax.inject.Inject
 
-class UserDetailPresenter(
+class UserDetailPresenter @Inject constructor(
     private val router: Router,
     private val screen: Screens,
-    repository: UsersRepository,
-) :
-    MvpPresenter<UserDetailView>() {
-
-    private val getUserReposListInteractor = GetUserReposListInteractor(repository)
-    private val getReposByUserIdFromDatabaseInteractor =
-        GetReposByUserIdFromDatabaseInteractor(repository)
+    private val getUserReposListInteractor: GetUserReposListInteractor,
+    private val getReposByUserIdFromDatabaseInteractor: GetReposByUserIdFromDatabaseInteractor,
+) : MvpPresenter<UserDetailView>() {
 
     fun backPressed(): Boolean {
         router.exit()

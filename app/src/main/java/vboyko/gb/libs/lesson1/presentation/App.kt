@@ -3,23 +3,13 @@ package vboyko.gb.libs.lesson1.presentation
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import vboyko.gb.libs.lesson1.di.AppComponent
+import vboyko.gb.libs.lesson1.di.AppModule
+import vboyko.gb.libs.lesson1.di.DaggerAppComponent
 
-class App: Application() {
+class App : Application() {
 
-    companion object {
-        lateinit var instance: App
-    }
-
-    //Временно до даггера положим это тут
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-
-    val navigatorHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-    }
+    val appComponent: AppComponent = DaggerAppComponent.builder()
+        .appModule(AppModule(this))
+        .build()
 }

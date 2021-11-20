@@ -9,16 +9,15 @@ import vboyko.gb.libs.lesson1.domain.interactor.GetUsersListInteractor
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
 import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
 import vboyko.gb.libs.lesson1.presentation.interfaces.UsersListView
+import javax.inject.Inject
 
-class UsersListPresenter(
+class UsersListPresenter @Inject constructor(
     private val router: Router,
     private val screen: Screens,
-    repository: UsersRepository,
+    private val getUsersListInteractor: GetUsersFromDatabaseInteractor,
+    private val getUsersFromDatabaseInteractor: GetUsersListInteractor
 ) :
     MvpPresenter<UsersListView>() {
-
-    private val getUsersListInteractor = GetUsersListInteractor(repository)
-    private val getUsersFromDatabaseInteractor = GetUsersFromDatabaseInteractor(repository)
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

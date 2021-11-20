@@ -9,7 +9,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import vboyko.gb.libs.lesson1.data.database.UsersDatabase
 import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
-import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUserDetailBinding
 import vboyko.gb.libs.lesson1.domain.entity.UserRepo
 import vboyko.gb.libs.lesson1.presentation.AndroidScreens
@@ -19,6 +18,7 @@ import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
 import vboyko.gb.libs.lesson1.presentation.interfaces.UserDetailView
 import vboyko.gb.libs.lesson1.presentation.presenters.UserDetailPresenter
 import java.lang.RuntimeException
+import javax.inject.Inject
 
 class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonListener {
 
@@ -27,16 +27,11 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
 
     private val userReposAdapter = UserReposAdapter()
 
+    @Inject
+    lateinit var usersDetailPresenter: UserDetailPresenter
+
     private val presenter by moxyPresenter {
-        UserDetailPresenter(
-            App.instance.router,
-            AndroidScreens(),
-            UsersRepositoryImpl(
-                GithubApiFactory.githubApi,
-                UsersDatabase.getInstance(requireContext()).usersDao(),
-                UsersDatabase.getInstance(requireContext()).reposDao()
-            )
-        )
+        usersDetailPresenter
     }
 
     companion object {
@@ -52,6 +47,11 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
                 }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (context?.applicationContext as App).appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
