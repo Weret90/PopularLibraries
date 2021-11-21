@@ -14,8 +14,7 @@ import javax.inject.Inject
 
 class UsersRepositoryImpl @Inject constructor(
     private val githubApi: GithubApiService,
-    private val usersDao: UsersDao,
-    private val reposDao: ReposDao,
+    private val usersDao: UsersDao
 ) : UsersRepository {
 
     override fun getUsersList(): Single<List<User>> {
@@ -34,24 +33,8 @@ class UsersRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getUserReposList(url: String, userId: Int): Single<List<UserRepo>> {
-        return githubApi.loadUserRepos(url)
-            .doOnSuccess {
-                addReposInDB(it, userId)
-            }
-            .map {
-                it.toBusiness()
-            }
-    }
-
     override fun getAllUsersFromDatabase(): Single<List<User>> {
         return usersDao.getAllUsers().map {
-            it.toBusiness()
-        }
-    }
-
-    override fun getReposByUserIdFromDatabase(userId: Int): Single<List<UserRepo>> {
-        return reposDao.findReposByUserId(userId).map {
             it.toBusiness()
         }
     }
@@ -60,10 +43,5 @@ class UsersRepositoryImpl @Inject constructor(
         usersDao.addUsersList(users)
     }
 
-    private fun addReposInDB(repos: List<UserRepoDTO>, userId: Int) {
-        repos.map {
-            it.userId = userId
-        }
-        reposDao.addReposList(repos)
-    }
+
 }
