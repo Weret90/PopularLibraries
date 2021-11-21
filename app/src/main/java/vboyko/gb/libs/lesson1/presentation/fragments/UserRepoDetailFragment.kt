@@ -15,17 +15,23 @@ import vboyko.gb.libs.lesson1.presentation.interfaces.UserRepoDetail
 import vboyko.gb.libs.lesson1.presentation.mapper.toPresentationModel
 import vboyko.gb.libs.lesson1.presentation.model.UserRepoModel
 import vboyko.gb.libs.lesson1.presentation.presenters.UserRepoDetailPresenter
+import javax.inject.Inject
 
 class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButtonListener {
 
     private var _binding: FragmentUserRepoDetailBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var userRepoDetailPresenter: UserRepoDetailPresenter
+
     private val presenter by moxyPresenter {
-        UserRepoDetailPresenter(
-            App.instance.router,
-            AndroidScreens()
-        )
+        userRepoDetailPresenter
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (context?.applicationContext as App).appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

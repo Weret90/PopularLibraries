@@ -10,8 +10,9 @@ import vboyko.gb.libs.lesson1.data.network.GithubApiService
 import vboyko.gb.libs.lesson1.domain.entity.User
 import vboyko.gb.libs.lesson1.domain.entity.UserRepo
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
+import javax.inject.Inject
 
-class UsersRepositoryImpl(
+class UsersRepositoryImpl @Inject constructor(
     private val githubApi: GithubApiService,
     private val usersDao: UsersDao,
     private val reposDao: ReposDao,
@@ -20,7 +21,7 @@ class UsersRepositoryImpl(
     override fun getUsersList(): Single<List<User>> {
         return githubApi.loadUsers()
             .doOnSuccess {
-                refreshUsers(it)
+                addUsersInDB(it)
             }
             .map {
                 it.toBusiness()
@@ -36,7 +37,7 @@ class UsersRepositoryImpl(
     override fun getUserReposList(url: String, userId: Int): Single<List<UserRepo>> {
         return githubApi.loadUserRepos(url)
             .doOnSuccess {
-                refreshRepos(it, userId)
+                addReposInDB(it, userId)
             }
             .map {
                 it.toBusiness()
@@ -55,13 +56,11 @@ class UsersRepositoryImpl(
         }
     }
 
-    private fun refreshUsers(users: List<UserDTO>) {
-        usersDao.deleteAllUsers()
+    private fun addUsersInDB(users: List<UserDTO>) {
         usersDao.addUsersList(users)
     }
 
-    private fun refreshRepos(repos: List<UserRepoDTO>, userId: Int) {
-        reposDao.deleteReposByUserId(userId)
+    private fun addReposInDB(repos: List<UserRepoDTO>, userId: Int) {
         repos.map {
             it.userId = userId
         }

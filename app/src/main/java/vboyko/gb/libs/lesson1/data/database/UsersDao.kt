@@ -15,9 +15,9 @@ interface UsersDao {
     @Query("DELETE FROM users")
     fun deleteAllUsers()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addUser(userDTO: UserDTO)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addUsersList(usersList: List<UserDTO>)
 }

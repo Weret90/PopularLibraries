@@ -9,7 +9,6 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import vboyko.gb.libs.lesson1.data.database.UsersDatabase
 import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
-import vboyko.gb.libs.lesson1.data.network.GithubApiFactory
 import vboyko.gb.libs.lesson1.databinding.FragmentUsersListBinding
 import vboyko.gb.libs.lesson1.domain.entity.User
 import vboyko.gb.libs.lesson1.presentation.*
@@ -17,6 +16,7 @@ import vboyko.gb.libs.lesson1.presentation.adapters.UsersListAdapter
 import vboyko.gb.libs.lesson1.presentation.interfaces.BackButtonListener
 import vboyko.gb.libs.lesson1.presentation.interfaces.UsersListView
 import vboyko.gb.libs.lesson1.presentation.presenters.UsersListPresenter
+import javax.inject.Inject
 
 class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListener {
 
@@ -24,20 +24,21 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
     private val binding get() = _binding!!
 
     private val usersListAdapter = UsersListAdapter()
+
+    @Inject
+    lateinit var usersListPresenter: UsersListPresenter
+
     private val presenter by moxyPresenter {
-        UsersListPresenter(
-            App.instance.router,
-            AndroidScreens(),
-            UsersRepositoryImpl(
-                GithubApiFactory.githubApi,
-                UsersDatabase.getInstance(requireContext()).usersDao(),
-                UsersDatabase.getInstance(requireContext()).reposDao()
-            )
-        )
+        usersListPresenter
     }
 
     companion object {
         fun newInstance() = UsersListFragment()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (context?.applicationContext as App).appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

@@ -10,10 +10,10 @@ import vboyko.gb.libs.lesson1.data.model.UserRepoDTO
 @Dao
 interface ReposDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addRepo(repo: UserRepoDTO)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addReposList(repos: List<UserRepoDTO>)
 
     @Query("SELECT * FROM repos")
