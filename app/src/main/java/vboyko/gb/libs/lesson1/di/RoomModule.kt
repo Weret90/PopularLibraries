@@ -27,13 +27,13 @@ class RoomModule {
 
     @Provides
     @Singleton
-    fun provideReposDao(usersDatabase: UsersDatabase): ReposDao {
-        return usersDatabase.reposDao()
+    fun provideUsersDao(usersDatabase: UsersDatabase): UsersDao {
+        return usersDatabase.usersDao()
     }
 
     @Provides
     @Singleton
-    fun provideUsersDao(usersDatabase: UsersDatabase): UsersDao {
-        return usersDatabase.usersDao()
+    fun provideReposDao(usersDatabase: UsersDatabase): ReposDao {
+        return usersDatabase.reposDao()
     }
 }

@@ -4,6 +4,7 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
+import vboyko.gb.libs.lesson1.di.UsersScope
 import vboyko.gb.libs.lesson1.domain.interactor.GetUsersFromDatabaseInteractor
 import vboyko.gb.libs.lesson1.domain.interactor.GetUsersListInteractor
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
@@ -11,6 +12,7 @@ import vboyko.gb.libs.lesson1.presentation.interfaces.Screens
 import vboyko.gb.libs.lesson1.presentation.interfaces.UsersListView
 import javax.inject.Inject
 
+@UsersScope
 class UsersListPresenter @Inject constructor(
     private val router: Router,
     private val screen: Screens,
@@ -61,5 +63,10 @@ class UsersListPresenter @Inject constructor(
                     viewState.hideProgressBar()
                 }
             )
+    }
+
+    override fun onDestroy() {
+        viewState.releaseUserScope()
+        super.onDestroy()
     }
 }

@@ -12,4 +12,6 @@ interface UsersListView : MvpView {
     fun showErrorToast(t: Throwable)
 
     fun hideProgressBar()
+
+    fun releaseUserScope()
 }

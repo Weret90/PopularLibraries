@@ -2,20 +2,24 @@ package vboyko.gb.libs.lesson1.di
 
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
+import vboyko.gb.libs.lesson1.data.database.UsersDao
+import vboyko.gb.libs.lesson1.data.database.UsersDatabase
 import vboyko.gb.libs.lesson1.data.repository.ReposRepositoryImpl
 import vboyko.gb.libs.lesson1.data.repository.UsersRepositoryImpl
 import vboyko.gb.libs.lesson1.domain.repository.ReposRepository
 import vboyko.gb.libs.lesson1.domain.repository.UsersRepository
+import javax.inject.Scope
 import javax.inject.Singleton
 
 @Module
-interface RepositoryModule {
+interface UsersModule {
 
     @Binds
-    @Singleton
+    @UsersScope
     fun bindUsersRepository(impl: UsersRepositoryImpl): UsersRepository
-
-    @Binds
-    @Singleton
-    fun bindReposRepository(impl: ReposRepositoryImpl): ReposRepository
 }
+
+@Scope
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UsersScope

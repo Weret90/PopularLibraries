@@ -37,7 +37,7 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (context?.applicationContext as App).appComponent.inject(this)
+        (context?.applicationContext as App).initUserSubcomponent().inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -74,6 +74,10 @@ class UsersListFragment : MvpAppCompatFragment(), UsersListView, BackButtonListe
 
     override fun hideProgressBar() {
         binding.progressBar.visibility = View.GONE
+    }
+
+    override fun releaseUserScope() {
+        (context?.applicationContext as App).releaseUserScope()
     }
 
     override fun backPressed() = presenter.backPressed()

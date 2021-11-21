@@ -4,4 +4,7 @@ import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
-interface UserRepoDetail : MvpView
+interface UserRepoDetail : MvpView {
+
+    fun releaseReposScope()
+}
