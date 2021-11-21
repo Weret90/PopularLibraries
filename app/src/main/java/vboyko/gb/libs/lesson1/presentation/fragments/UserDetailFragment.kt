@@ -50,7 +50,8 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (context?.applicationContext as App).appComponent.inject(this)
+        (context?.applicationContext as App).appComponent.userSubcomponent().reposSubcomponent()
+            .inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -90,6 +91,10 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView, BackButtonLis
 
     override fun showErrorToast(error: Throwable) {
         Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun releaseReposScope() {
+        (context?.applicationContext as App).releaseRepositoryScope()
     }
 
     override fun backPressed() = presenter.backPressed()

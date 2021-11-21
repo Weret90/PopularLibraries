@@ -30,7 +30,7 @@ class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButto
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (context?.applicationContext as App).appComponent.inject(this)
+        (context?.applicationContext as App).initRepositorySubcomponent()?.inject(this)
         super.onCreate(savedInstanceState)
     }
 
@@ -70,5 +70,9 @@ class UserRepoDetailFragment : MvpAppCompatFragment(), UserRepoDetail, BackButto
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun releaseReposScope() {
+        (context?.applicationContext as App).releaseRepositoryScope()
     }
 }
